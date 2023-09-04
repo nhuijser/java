@@ -1,3 +1,3 @@
 # java
 
-all java projects
+alle java opdrachten
