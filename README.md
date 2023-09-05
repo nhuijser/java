@@ -1,3 +1,3 @@
-# java
+# Processing
 
-alle java opdrachten
+This repository covers my learning experience using Processing
