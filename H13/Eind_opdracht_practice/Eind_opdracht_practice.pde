@@ -19,7 +19,8 @@ void keyReleased() {
   if(keyCode == 32) {
     if(started == true) return;
     if(started == false || restart == true) {
-      background(255, 0, 0);
+      fill(255, 0, 0);
+      rect(500, 500, 500, 500);
       changeTime = 0;
       
       started = true;
@@ -39,7 +40,6 @@ void keyReleased() {
 void keyPressed() {
   if(keyCode == 32) {
     if(started == false) {
-      background(255, 0, 0);
       return;
     }
     int reactionSpeedInMs = millis() - changeTime;
