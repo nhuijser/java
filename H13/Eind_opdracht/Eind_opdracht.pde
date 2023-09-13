@@ -13,17 +13,17 @@ void setup() {
   frameRate(60);
 }
 
-void movePlankRight(int locationX) {
+void movePlankRight() {
   locaX = locaX + 5 + Math.round(score * 0.015);
-  if (locaX >= 495) locaX = 0;
+  if (locaX >= 495) locaX = -60;
 }
 
-void movePlankLeft(int locationX) {
+void movePlankLeft() {
   locaX = locaX - 5 - Math.round(score * 0.015);
-  if (locaX <= -60) locaX = 495;
+  if (locaX <= -60) locaX = 500;
 }
 
-void spawnObject(int locaX) {
+void spawnobstacle(int locaX) {
   background(0);
   fill(255, 0, 0);
   rect(locaX, 450, 60, 20, 12);
@@ -58,7 +58,7 @@ void restart() {
  redraw();
 }
 
-  void endOnWin(int locaX) {
+  void endOnWin() {
     if(score >= 500) {
       textFont(createFont("AppleGothic", 128));
       textSize(50);
@@ -86,56 +86,56 @@ void keyPressed() {
 
 void draw() {
    if(keyCode == 39) {
-    movePlankRight(locaX);
+    movePlankRight();
   } 
   if(keyCode == 37) {
-    movePlankLeft(locaX);
+    movePlankLeft();
   } 
 
   
   background(0);
-  spawnObject(locaX);
-  endOnWin(locaX);
+  spawnobstacle(locaX);
+  endOnWin();
   displayScore();
   displayHearts();
   for (int i = obstacles.size() - 1; i >= 0; i--) {
-    Obstacle obs = obstacles.get(i);
-    obs.display();
-    obs.fall();
-    if (obs.isHit(locaX)) {
+    Obstacle obstacle = obstacles.get(i);
+    obstacle.display();
+    obstacle.fall();
+    if (obstacle.isHit(locaX)) {
       if(hearts <= 0) {
-      obs.end(locaX);
+      obstacle.end();
       } else {
         obstacles.remove(i);
         hearts--;
     }
     }
-    if (obs.isOffScreen()) {
+    if (obstacle.isOffScreen()) {
       score++;
       obstacles.remove(i);
     }
   }
   for (int i = upgrades.size() - 1; i >= 0; i--) {
-    Upgrade ups = upgrades.get(i);
-    ups.display();
-    ups.fall();
-    if (ups.isHit(locaX)) {
+    Upgrade upgrade = upgrades.get(i);
+    upgrade.display();
+    upgrade.fall();
+    if (upgrade.isHit(locaX)) {
      hearts++;
      upgrades.remove(i);
     }
-    if (ups.isOffScreen()) {
+    if (upgrade.isOffScreen()) {
       upgrades.remove(i);
     }
     
   }
     
    if(hearts <= 10) {
-    if (random(1) < 0.0010) { 
+    if (random(1) < 0.0015) { 
     upgrades.add(new Upgrade());
     }
    }
   
-    if(random(1000) < 0.02 + score * 0.00012) { 
+    if(random(1) < 0.02 + score * 0.00012) { 
     obstacles.add(new Obstacle());
   }
 }
@@ -169,22 +169,23 @@ class Obstacle {
   void display() {
 
     noStroke();
-    fill(10, 10, 255);
+    fill(128, 128, 128);
     round(10);
     
     if(rainbow) fill(r, g, b);
     rect(x, y, 20, 20, 7); 
   }
   
-  void end(int locaX) {
+  void end() {
+      noLoop();
       textFont(createFont("AppleGothic", 128));
       textSize(50);
       fill(0, 255, 0);
+      background(0);
       text("You died.", 160, 250);
       textSize(30);
       text("You had " + score + " points", 140, 280);
       text("Press ENTER to restart", 110, 310);
-      noLoop();
       
       if(score > highscore) highscore = score;
   }
@@ -196,21 +197,19 @@ class Obstacle {
   boolean isOffScreen() {
     return y > height;
   }
+  
+  float obstacleX() {
+    return x;
+  }
+
 }
 
 class Upgrade {
   float x;
   float y;
   float speed;
-  float r;
-  float g;
-  float b;
 
   Upgrade() {
-    r = random(255);
-    g = random(255);
-    b = random(255);
-    
     x = random(width);
     y = 0;
     speed = random(1, 2);
@@ -221,21 +220,14 @@ class Upgrade {
   }
 
   void display() {
-    //noStroke();
-    //if(rainbow) {
-    //  fill(r, g, b);
-    //} else {
-    //  fill(255, 10, 10);
-    //}
     text("❤", x, y);  
-    //ellipse(x, y, 20, 20); 
   }
 
   boolean isHit(int playerX) {
-    return (playerX + 60 >= x && playerX <= x + 20 && y + 10 >= 450 && y <= 470);
+    return (playerX + 60 >= x && playerX <= x + 20 && y + 10 >= 460 && y <= 470);
   }
 
   boolean isOffScreen() {
-    return y > height;
+    return y > height + 20;
   }
 }
