@@ -148,7 +148,7 @@ class Obstacle {
   float g;
   float b;
 
-  Obstacle() {
+  Obstacle() {      
     r = random(0, 256);
     g = random(0, 256);
     b = random(0, 256);
