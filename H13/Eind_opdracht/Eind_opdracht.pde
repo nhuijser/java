@@ -28,7 +28,7 @@ void movePlankLeft() {
   if (locaX <= -60) locaX = 500;
 }
 
-void spawnobstacle(int locaX) {
+void spawnObstacle(int locaX) {
   image(img, 0, 0);
   fill(255, 0, 0);
   rect(locaX, 450, 60, 20, 12);
@@ -98,15 +98,15 @@ void draw() {
     movePlankLeft();
   } 
 
-  
   image(img, 0, 0);
-  spawnobstacle(locaX);
+  spawnObstacle(locaX);
   endOnWin();
   displayScore();
   displayHearts();
+  
   for (int i = obstacles.size() - 1; i >= 0; i--) {
     Obstacle obstacle = obstacles.get(i);
-    obstacle.display();
+    obstacle.show();
     obstacle.fall();
     if (obstacle.isHit(locaX)) {
       if(hearts <= 0) {
@@ -123,7 +123,7 @@ void draw() {
   }
   for (int i = upgrades.size() - 1; i >= 0; i--) {
     Upgrade upgrade = upgrades.get(i);
-    upgrade.display();
+    upgrade.show();
     upgrade.fall();
     if (upgrade.isHit(locaX)) {
      hearts++;
@@ -172,7 +172,7 @@ class Obstacle {
     y += speed;
   }
 
-  void display() {
+  void show() {
 
     noStroke();
     fill(128, 128, 128);
@@ -180,7 +180,7 @@ class Obstacle {
     
     if(rainbow) fill(r, g, b);
     image(rock, x, y);
-  }
+  } 
   
   void end() {
       noLoop();
@@ -225,7 +225,7 @@ class Upgrade {
     y += speed;
   }
 
-  void display() {
+  void show() {
     textSize(30);
     text("❤", x, y);  
   }
