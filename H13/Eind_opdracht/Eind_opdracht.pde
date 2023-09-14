@@ -64,7 +64,7 @@ void restart() {
 }
 
   void endOnWin() {
-    if(score >= 500) {
+    if(score >= 600) {
       textFont(createFont("AppleGothic", 128));
       textSize(50);
       fill(0, 255, 0);
@@ -73,6 +73,7 @@ void restart() {
       text("You had " + score + " points", 140, 280);
       text("Press ENTER to restart", 110, 310);
       noLoop();
+      if(score >= highscore) highscore = score;
     }
   }
   
