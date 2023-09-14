@@ -7,9 +7,14 @@ boolean rainbow = false;
 ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 ArrayList<Upgrade> upgrades = new ArrayList<Upgrade>();
 boolean gameEnd = false;
+PImage img;
+PImage rock;
 void setup() {
   size(500, 500);
-  background(0);
+  img = loadImage("https://i.imgur.com/JMrk23d.png", "png");
+  image(img, 0, 0);
+  rock = loadImage("https://i.imgur.com/waWrlqy.png", "png");
+  rock.resize(40, 40);
   frameRate(60);
 }
 
@@ -24,7 +29,7 @@ void movePlankLeft() {
 }
 
 void spawnobstacle(int locaX) {
-  background(0);
+  image(img, 0, 0);
   fill(255, 0, 0);
   rect(locaX, 450, 60, 20, 12);
 }
@@ -44,7 +49,7 @@ void displayHearts() {
   textFont(createFont("AppleColorEmoji", 128));
   for(int i = 0; i != hearts; i++) {
   textSize(20);
-  text("❤️" + hearts, 20 * i, 20);
+  text("❤", 20 * i, 20);
   }
 }
 
@@ -53,7 +58,7 @@ void restart() {
  hearts = 1;
  obstacles.clear();
  locaX = 220;
- background(0);
+ image(img, 0, 0);
  loop();
  redraw();
 }
@@ -93,7 +98,7 @@ void draw() {
   } 
 
   
-  background(0);
+  image(img, 0, 0);
   spawnobstacle(locaX);
   endOnWin();
   displayScore();
@@ -173,7 +178,7 @@ class Obstacle {
     round(10);
     
     if(rainbow) fill(r, g, b);
-    rect(x, y, 20, 20, 7); 
+    image(rock, x, y);
   }
   
   void end() {
@@ -181,7 +186,7 @@ class Obstacle {
       textFont(createFont("AppleGothic", 128));
       textSize(50);
       fill(0, 255, 0);
-      background(0);
+      image(img, 0, 0);
       text("You died.", 160, 250);
       textSize(30);
       text("You had " + score + " points", 140, 280);
@@ -220,6 +225,7 @@ class Upgrade {
   }
 
   void display() {
+    textSize(30);
     text("❤", x, y);  
   }
 
